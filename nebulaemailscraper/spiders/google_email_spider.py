@@ -24,10 +24,9 @@ class GoogleEmailSpiderSpider(scrapy.Spider):
                 continue
             keyword = keyword.strip().rstrip("\n").casefold()
             url = f"https://www.google.com/search?q={keyword}&num=100&start=0"
-            # TODO: scrape all the result pages nt only the 100 first
-            yield scrapy.Request(url, self.parse)
+            yield scrapy.Request(url, self.parse_google, priority=2)
 
-    def parse(self, response):
+    def parse_google(self, response):
         CONTACT_URLS = [
             "/contacto",
             "/contact",
@@ -43,9 +42,9 @@ class GoogleEmailSpiderSpider(scrapy.Spider):
         ]
         next_url = response.css("a#pnnext::attr(href)").getall()
 
-        yield from response.follow_all(target_domains, self.parse_emails)
-        yield from response.follow_all(contact_domains, self.parse_emails)
-        yield from response.follow_all(next_url, self.parse)
+        yield from response.follow_all(target_domains, self.parse_emails, priority=1)
+        yield from response.follow_all(contact_domains, self.parse_emails, priority=3)
+        yield from response.follow_all(next_url, self.parse_google, priority=4)
 
     def parse_emails(self, response, **kwargs):
         selector = response.css("body")

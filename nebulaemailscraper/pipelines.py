@@ -12,6 +12,7 @@ class EmailsDetailsPipeline:
         "facebook.com",
         "instagram.com",
         "scribd.com",
+        "fiverr.com",
         ".jpg",
         ".jpeg",
         ".png",
