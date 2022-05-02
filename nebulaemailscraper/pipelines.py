@@ -1,3 +1,4 @@
+import json
 from itemadapter import ItemAdapter
 from scrapy.exceptions import DropItem
 
@@ -10,6 +11,7 @@ class EmailsDetailsPipeline:
         "wikipedia.com",
         "facebook.com",
         "instagram.com",
+        "scribd.com",
         ".jpg",
         ".jpeg",
         ".png",
@@ -17,6 +19,7 @@ class EmailsDetailsPipeline:
         ".pdf",
         ".zip",
         ".rar",
+        ".txt",
     ]
 
     saved_emails = []
@@ -29,10 +32,12 @@ class EmailsDetailsPipeline:
         if emails == [] or emails is None:
             raise DropItem(f"Droping item, no valid emails found in {url}")
         else:
+            # Clean duplicate emails in the actual item
             emails = set(emails)
             emails = list(emails)
             clean_emails = list()
 
+            # Drop items if contains blacklisted domains or file extensions.
             for email in emails:
                 is_black_listed = False
                 for domain in self.domains_black_list:
@@ -43,10 +48,26 @@ class EmailsDetailsPipeline:
                     clean_emails.append(email)
             if clean_emails == []:
                 raise DropItem(f"Droping item, no valid emails found in {url}")
+
+            # Check if the actual item has been saved before
             else:
-                adapter["emails"] = clean_emails
-
                 url = "/".join(url.split("/")[:3])
-                adapter["url"] = url
+                dict_domain = [data for data in self.saved_emails if data["url"] == url]
+                if dict_domain == []:
+                    # Not registered
+                    self.saved_emails.append({"url": url, "emails": clean_emails})
+                else:
+                    # Registered
+                    index_domain = self.saved_emails.index(dict_domain[0])
+                    if clean_emails == self.saved_emails[index_domain]["url"]:
+                        raise DropItem(f"Droping item, duplicate emails found in {url}")
+                    else:
+                        # Fuse old register with new register
+                        clean_emails.extend(self.saved_emails[index_domain]["emails"])
+                        clean_emails = set(clean_emails)
+                        clean_emails = list(clean_emails)
+                        self.saved_emails[index_domain]["emails"] = clean_emails
 
-                return item
+    def close_spider(self, spider):
+        with open('emails.json', 'w') as file:
+            file.write(json.dumps(self.saved_emails, indent=4))

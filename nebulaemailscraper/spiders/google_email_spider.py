@@ -1,8 +1,7 @@
 import scrapy
 from scrapy.exceptions import CloseSpider
 from scrapy.loader import ItemLoader
-from ..items import EmailItem, ProjectDetailsItem
-from datetime import datetime
+from ..items import EmailItem
 
 
 class GoogleEmailSpiderSpider(scrapy.Spider):
@@ -25,6 +24,7 @@ class GoogleEmailSpiderSpider(scrapy.Spider):
                 continue
             keyword = keyword.strip().rstrip("\n").casefold()
             url = f"https://www.google.com/search?q={keyword}&num=100&start=0"
+            # TODO: scrape all the result pages nt only the 100 first
             yield scrapy.Request(url, self.parse)
 
     def parse(self, response):
