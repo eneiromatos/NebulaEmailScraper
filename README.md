@@ -1,7 +1,9 @@
 # Nebula Email Scraper
 The main goal of this scraper is to extract emails from websites for use in email marketing campaigns. Its main feature is that you can segment using keywords so you can make a deep scraping by subject.
 
-![](screenshot.jpg)
+![](screenshot01.jpg)
+![](screenshot02.jpg)
+![](screenshot03.jpg)
 
 ## Features
 * Made with Scrapy
