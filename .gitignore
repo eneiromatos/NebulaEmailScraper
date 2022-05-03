@@ -5378,7 +5378,6 @@ venv/Scripts/twist.exe
 venv/Scripts/twistd.exe
 venv/Scripts/__pycache__/jp.cpython-310.pyc
 emails.json
-keywords.txt
 .vscode/settings.json
 ckeywords.txt
 test.py
