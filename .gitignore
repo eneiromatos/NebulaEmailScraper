@@ -5382,3 +5382,9 @@ keywords.txt
 .vscode/settings.json
 ckeywords.txt
 test.py
+nebulaemailscraper/spiders/__pycache__/__init__.cpython-310.pyc
+nebulaemailscraper/spiders/__pycache__/google_email_spider.cpython-310.pyc
+nebulaemailscraper/__pycache__/__init__.cpython-310.pyc
+nebulaemailscraper/__pycache__/items.cpython-310.pyc
+nebulaemailscraper/__pycache__/pipelines.cpython-310.pyc
+nebulaemailscraper/__pycache__/settings.cpython-310.pyc
