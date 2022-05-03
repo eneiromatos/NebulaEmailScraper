@@ -24,6 +24,6 @@ To install and run this project copy or clone all the files to your preferred fo
 pip install -r requirements.txt
 scrapy crawl google_email_spider
 ```
-When the scrapy spider stops, a file called "emails.json" will be created in the root directory (where "scrapy.cfg" resides).
+The first time you do a crawl a "keywords.txt" file will be created if it does not exist. When the scrapy spider stops, a file called "emails.json" will be outputted. Both files will appear in the root directory, where "scrapy.cfg" resides).
 
 Nebula Email Scraper was developed under `Python 3.10.4`using `Scrapy 2.6.1` and it's recommended to run in a virtual environment.
